@@ -75,7 +75,7 @@ def create():
 
     # Save credentials to file
     with open("accounts.txt", "a") as f:
-        f.write(f"{email}:{password}\n")
+        f.write(f"{email}\n")
     
     print(f"Account created | {email}")
 
