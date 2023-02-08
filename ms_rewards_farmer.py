@@ -753,7 +753,7 @@ accounts = []
 
 with open("accounts.txt", "r") as file:
     accounts = file.readlines()
-    accounts = [account.strip() for acount in accounts]
+    accounts = [account.strip() for account in accounts]
 
 for account in accounts:
 
