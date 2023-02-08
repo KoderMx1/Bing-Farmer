@@ -14,6 +14,9 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, TimeoutException, ElementNotInteractableException, UnexpectedAlertPresentException, NoAlertPresentException
 
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 # Define user-agents
 PC_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36 Edg/86.0.622.63'
 MOBILE_USER_AGENT = 'Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0. 3945.79 Mobile Safari/537.36'
@@ -27,14 +30,14 @@ email_password = "kt5a$V%U%MA2dnch0T2KW94"
 # Define browser setup function
 def browserSetup(headless_mode: bool = False, user_agent: str = PC_USER_AGENT) -> WebDriver:
     # Create Chrome browser
-    from selenium.webdriver.chrome.options import Options
-    options = Options()
-    options.add_argument("user-agent=" + user_agent)
-    options.add_argument('lang=' + LANG.split("-")[0])
-    if headless_mode :
-        options.add_argument("--headless")
-    options.add_argument('log-level=3')
-    chrome_browser_obj = webdriver.Chrome(options=options)
+    options = webdriver.ChromeOptions()
+    #options.add_argument("user-agent=" + user_agent)
+    #options.add_argument('lang=' + LANG.split("-")[0])
+    #if headless_mode :
+        #options.add_argument("--headless")
+    #options.add_argument('log-level=3')
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
+    chrome_browser_obj = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return chrome_browser_obj
 
 # Define login function
@@ -53,8 +56,8 @@ def login(browser: WebDriver, email: str, isMobile: bool = False):
     # Wait complete loading
     waitUntilVisible(browser, By.ID, 'loginHeader', 10)
     # Enter password
-    #browser.find_element(By.ID, "i0118").send_keys(pwd)
-    browser.execute_script("document.getElementById('i0118').value = kt5a$V%U%MA2dnch0T2KW94;")
+    browser.find_element(By.ID, "i0118").send_keys("kt5a$V%U%MA2dnch0T2KW94")
+    #browser.execute_script("document.getElementById('i0118').value = kt5a$V%U%MA2dnch0T2KW94;")
     print('[LOGIN]', 'Writing password...')
     # Click next
     browser.find_element(By.ID, 'idSIButton9').click()
